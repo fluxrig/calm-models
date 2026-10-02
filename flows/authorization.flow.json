@@ -1,0 +1,71 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/flow.json",
+  "$id": "https://raw.githubusercontent.com/fluxrig/calm-models/main/flows/authorization.flow.json",
+  "unique-id": "flow-authorization",
+  "name": "Authorization, happy path (east, scheme A)",
+  "description": "POS authorization approved by the local scheme-A uplink. Every reply returns to the terminal that sent it (STAN-tuple correlation).",
+  "transitions": [
+    {
+      "relationship-unique-id": "pos-terminals-east-to-terminals-east",
+      "sequence-number": 1,
+      "description": "Terminal submits 0100 authorization"
+    },
+    {
+      "relationship-unique-id": "terminals-east-to-decode-east",
+      "sequence-number": 2,
+      "description": "Bytes enter the decode leg"
+    },
+    {
+      "relationship-unique-id": "decode-east-to-conductor-east",
+      "sequence-number": 3,
+      "description": "Structured FluxMsg reaches the Conductor"
+    },
+    {
+      "relationship-unique-id": "conductor-east-to-encode-scheme-a-east",
+      "sequence-number": 4,
+      "description": "BIN starts with 4: route scheme-a, local pool"
+    },
+    {
+      "relationship-unique-id": "encode-scheme-a-east-to-uplink-scheme-a-east",
+      "sequence-number": 5,
+      "description": "Encoded for the scheme dialect (ASCII, mTLS)"
+    },
+    {
+      "relationship-unique-id": "uplink-scheme-a-east-to-scheme-a-east",
+      "sequence-number": 6,
+      "description": "Authorization submitted to scheme A"
+    },
+    {
+      "relationship-unique-id": "uplink-scheme-a-east-to-scheme-a-east",
+      "sequence-number": 7,
+      "description": "Scheme approves (0110, DE39=00)",
+      "direction": "destination-to-source"
+    },
+    {
+      "relationship-unique-id": "uplink-scheme-a-east-to-decode-scheme-a-east",
+      "sequence-number": 8,
+      "description": "Reply bytes enter the per-leg decoder"
+    },
+    {
+      "relationship-unique-id": "decode-scheme-a-east-to-conductor-east",
+      "sequence-number": 9,
+      "description": "Conductor redeems the parked ticket",
+      "direction": "destination-to-source"
+    },
+    {
+      "relationship-unique-id": "conductor-east-to-encode-replies-east",
+      "sequence-number": 10,
+      "description": "Matched response to the reply encoder"
+    },
+    {
+      "relationship-unique-id": "encode-replies-east-to-terminals-east",
+      "sequence-number": 11,
+      "description": "Encoded in the terminal dialect"
+    },
+    {
+      "relationship-unique-id": "terminals-east-to-pos-terminals-east",
+      "sequence-number": 12,
+      "description": "0110 delivered to the originating terminal"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/flow.json",
+  "$id": "https://raw.githubusercontent.com/fluxrig/calm-models/main/flows/failover.flow.json",
+  "unique-id": "flow-failover",
+  "name": "Failover across regions (high level)",
+  "description": "East's scheme pool is exhausted, so the east Rack forwards to its peer region over the Snake; west routes by the same rule and the response returns to east, which redeems the ticket it parked when it forwarded.",
+  "transitions": [
+    {
+      "relationship-unique-id": "pos-terminals-east-interacts-rack-east",
+      "sequence-number": 1,
+      "description": "Terminal submits a 0100 to the east Rack"
+    },
+    {
+      "relationship-unique-id": "rack-east-to-rack-west",
+      "sequence-number": 2,
+      "description": "East destinations exhausted: forward to the peer region"
+    },
+    {
+      "relationship-unique-id": "rack-west-to-scheme-a-west",
+      "sequence-number": 3,
+      "description": "West routes by BIN and submits to scheme A"
+    },
+    {
+      "relationship-unique-id": "scheme-a-west-to-rack-west",
+      "sequence-number": 4,
+      "description": "Scheme approves",
+      "direction": "destination-to-source"
+    },
+    {
+      "relationship-unique-id": "rack-west-to-rack-east",
+      "sequence-number": 5,
+      "description": "Finished response returns to the origin Rack"
+    },
+    {
+      "relationship-unique-id": "rack-east-to-pos-terminals-east",
+      "sequence-number": 6,
+      "description": "0110 delivered to the originating terminal"
+    }
+  ]
+}

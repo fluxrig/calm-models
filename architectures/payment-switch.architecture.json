@@ -1,0 +1,524 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/calm.json",
+  "$id": "https://raw.githubusercontent.com/fluxrig/calm-models/main/architectures/payment-switch.architecture.json",
+  "title": "fluxrig payment switch (two regions)",
+  "description": "High-level view of a two-region ISO 8583 authorization switch. Each region hosts a Rack; Racks fail over to the peer region and reach their scheme endpoints. The gears, wires and sockets live in each Rack's detail architecture (drill down from a Rack). Generated from examples/scenarios/payment_switch_two_regions.yaml.",
+  "nodes": [
+    {
+      "unique-id": "region-east",
+      "node-type": "fluxrig:region",
+      "name": "Region east",
+      "description": "Deployment region east. Racks here fail over to the peer region over the Snake when a local scheme link degrades.",
+      "metadata": {
+        "icon": "map"
+      }
+    },
+    {
+      "unique-id": "region-west",
+      "node-type": "fluxrig:region",
+      "name": "Region west",
+      "description": "Deployment region west. Racks here fail over to the peer region over the Snake when a local scheme link degrades.",
+      "metadata": {
+        "icon": "map"
+      }
+    },
+    {
+      "unique-id": "rack-east",
+      "node-type": "fluxrig:rack",
+      "name": "Rack rack-east",
+      "description": "Distributed execution node. Runs gears locally and connects outbound-only to the Mixer over the Snake (mTLS).",
+      "metadata": {
+        "labels": {
+          "region": "east"
+        },
+        "icon": "server"
+      },
+      "details": {
+        "detailed-architecture": "rack-east.architecture.json"
+      }
+    },
+    {
+      "unique-id": "rack-west",
+      "node-type": "fluxrig:rack",
+      "name": "Rack rack-west",
+      "description": "Distributed execution node. Runs gears locally and connects outbound-only to the Mixer over the Snake (mTLS).",
+      "metadata": {
+        "labels": {
+          "region": "west"
+        },
+        "icon": "server"
+      },
+      "details": {
+        "detailed-architecture": "rack-west.architecture.json"
+      }
+    },
+    {
+      "unique-id": "mixer",
+      "node-type": "fluxrig:mixer",
+      "name": "Mixer (control plane)",
+      "description": "Central control plane. Stores scenario topologies and pushes them to Racks. Hosted in region east.",
+      "metadata": {
+        "region": "east",
+        "icon": "mixer"
+      }
+    },
+    {
+      "unique-id": "pos-terminals-east",
+      "node-type": "actor",
+      "name": "POS terminals (east)",
+      "description": "Point-of-sale terminals. External systems played by load simulators in test, by real terminals in production.",
+      "metadata": {
+        "socket": ":8583",
+        "icon": "terminal"
+      }
+    },
+    {
+      "unique-id": "scheme-a-east",
+      "node-type": "system",
+      "name": "Scheme A (east)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-a.east.example:9001",
+        "icon": "credit-card"
+      }
+    },
+    {
+      "unique-id": "scheme-a2-east",
+      "node-type": "system",
+      "name": "Scheme A \u00b7 access point 2 (east)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-a-2.east.example:9001",
+        "icon": "credit-card"
+      }
+    },
+    {
+      "unique-id": "scheme-b-east",
+      "node-type": "system",
+      "name": "Scheme B (east)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-b.east.example:9002",
+        "icon": "credit-card"
+      }
+    },
+    {
+      "unique-id": "pos-terminals-west",
+      "node-type": "actor",
+      "name": "POS terminals (west)",
+      "description": "Point-of-sale terminals. External systems played by load simulators in test, by real terminals in production.",
+      "metadata": {
+        "socket": ":8583",
+        "icon": "terminal"
+      }
+    },
+    {
+      "unique-id": "scheme-a-west",
+      "node-type": "system",
+      "name": "Scheme A (west)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-a.west.example:9001",
+        "icon": "credit-card"
+      }
+    },
+    {
+      "unique-id": "scheme-b-west",
+      "node-type": "system",
+      "name": "Scheme B (west)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-b.west.example:9002",
+        "icon": "credit-card"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "region-east-contains-rack-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-east",
+          "nodes": [
+            "rack-east"
+          ]
+        }
+      },
+      "description": "Region east hosts rack-east."
+    },
+    {
+      "unique-id": "region-west-contains-rack-west",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-west",
+          "nodes": [
+            "rack-west"
+          ]
+        }
+      },
+      "description": "Region west hosts rack-west."
+    },
+    {
+      "unique-id": "region-east-contains-mixer",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-east",
+          "nodes": [
+            "mixer"
+          ]
+        }
+      },
+      "description": "The Mixer is hosted in region east."
+    },
+    {
+      "unique-id": "region-east-contains-pos-terminals-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-east",
+          "nodes": [
+            "pos-terminals-east"
+          ]
+        }
+      },
+      "description": "Region east hosts POS terminals (east)."
+    },
+    {
+      "unique-id": "region-east-contains-scheme-a-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-east",
+          "nodes": [
+            "scheme-a-east"
+          ]
+        }
+      },
+      "description": "Region east hosts Scheme A (east)."
+    },
+    {
+      "unique-id": "region-east-contains-scheme-a2-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-east",
+          "nodes": [
+            "scheme-a2-east"
+          ]
+        }
+      },
+      "description": "Region east hosts Scheme A \u00b7 access point 2 (east)."
+    },
+    {
+      "unique-id": "region-east-contains-scheme-b-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-east",
+          "nodes": [
+            "scheme-b-east"
+          ]
+        }
+      },
+      "description": "Region east hosts Scheme B (east)."
+    },
+    {
+      "unique-id": "region-west-contains-pos-terminals-west",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-west",
+          "nodes": [
+            "pos-terminals-west"
+          ]
+        }
+      },
+      "description": "Region west hosts POS terminals (west)."
+    },
+    {
+      "unique-id": "region-west-contains-scheme-a-west",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-west",
+          "nodes": [
+            "scheme-a-west"
+          ]
+        }
+      },
+      "description": "Region west hosts Scheme A (west)."
+    },
+    {
+      "unique-id": "region-west-contains-scheme-b-west",
+      "relationship-type": {
+        "composed-of": {
+          "container": "region-west",
+          "nodes": [
+            "scheme-b-west"
+          ]
+        }
+      },
+      "description": "Region west hosts Scheme B (west)."
+    },
+    {
+      "unique-id": "mixer-to-rack-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "mixer"
+          },
+          "destination": {
+            "node": "rack-east"
+          }
+        }
+      },
+      "description": "Mixer pushes the scenario and collects telemetry."
+    },
+    {
+      "unique-id": "mixer-to-rack-west",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "mixer"
+          },
+          "destination": {
+            "node": "rack-west"
+          }
+        }
+      },
+      "description": "Mixer pushes the scenario and collects telemetry."
+    },
+    {
+      "unique-id": "rack-east-to-rack-west",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-east"
+          },
+          "destination": {
+            "node": "rack-west"
+          }
+        }
+      },
+      "description": "rack-east forwards a request to rack-west when its local destinations are exhausted; the finished response returns the same way.",
+      "metadata": {
+        "transport": "FluxMsg/CBOR over Snake (NATS JetStream, mTLS)"
+      }
+    },
+    {
+      "unique-id": "rack-west-to-rack-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-west"
+          },
+          "destination": {
+            "node": "rack-east"
+          }
+        }
+      },
+      "description": "rack-west forwards a request to rack-east when its local destinations are exhausted; the finished response returns the same way.",
+      "metadata": {
+        "transport": "FluxMsg/CBOR over Snake (NATS JetStream, mTLS)"
+      }
+    },
+    {
+      "unique-id": "pos-terminals-east-interacts-rack-east",
+      "relationship-type": {
+        "interacts": {
+          "actor": "pos-terminals-east",
+          "nodes": [
+            "rack-east"
+          ]
+        }
+      },
+      "description": "Terminals submit ISO 8583 authorizations to the Rack."
+    },
+    {
+      "unique-id": "rack-east-to-pos-terminals-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-east"
+          },
+          "destination": {
+            "node": "pos-terminals-east"
+          }
+        }
+      },
+      "description": "Authorization responses back to the terminals.",
+      "protocol": "TCP"
+    },
+    {
+      "unique-id": "rack-east-to-scheme-a-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-east"
+          },
+          "destination": {
+            "node": "scheme-a-east"
+          }
+        }
+      },
+      "description": "Uplink: authorizations to Scheme A (east).",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "scheme-a-east-to-rack-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "scheme-a-east"
+          },
+          "destination": {
+            "node": "rack-east"
+          }
+        }
+      },
+      "description": "Replies back to the Rack.",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "rack-east-to-scheme-a2-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-east"
+          },
+          "destination": {
+            "node": "scheme-a2-east"
+          }
+        }
+      },
+      "description": "Uplink: authorizations to Scheme A \u00b7 access point 2 (east).",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "scheme-a2-east-to-rack-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "scheme-a2-east"
+          },
+          "destination": {
+            "node": "rack-east"
+          }
+        }
+      },
+      "description": "Replies back to the Rack.",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "rack-east-to-scheme-b-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-east"
+          },
+          "destination": {
+            "node": "scheme-b-east"
+          }
+        }
+      },
+      "description": "Uplink: authorizations to Scheme B (east).",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "scheme-b-east-to-rack-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "scheme-b-east"
+          },
+          "destination": {
+            "node": "rack-east"
+          }
+        }
+      },
+      "description": "Replies back to the Rack.",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "pos-terminals-west-interacts-rack-west",
+      "relationship-type": {
+        "interacts": {
+          "actor": "pos-terminals-west",
+          "nodes": [
+            "rack-west"
+          ]
+        }
+      },
+      "description": "Terminals submit ISO 8583 authorizations to the Rack."
+    },
+    {
+      "unique-id": "rack-west-to-pos-terminals-west",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-west"
+          },
+          "destination": {
+            "node": "pos-terminals-west"
+          }
+        }
+      },
+      "description": "Authorization responses back to the terminals.",
+      "protocol": "TCP"
+    },
+    {
+      "unique-id": "rack-west-to-scheme-a-west",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-west"
+          },
+          "destination": {
+            "node": "scheme-a-west"
+          }
+        }
+      },
+      "description": "Uplink: authorizations to Scheme A (west).",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "scheme-a-west-to-rack-west",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "scheme-a-west"
+          },
+          "destination": {
+            "node": "rack-west"
+          }
+        }
+      },
+      "description": "Replies back to the Rack.",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "rack-west-to-scheme-b-west",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "rack-west"
+          },
+          "destination": {
+            "node": "scheme-b-west"
+          }
+        }
+      },
+      "description": "Uplink: authorizations to Scheme B (west).",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "scheme-b-west-to-rack-west",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "scheme-b-west"
+          },
+          "destination": {
+            "node": "rack-west"
+          }
+        }
+      },
+      "description": "Replies back to the Rack.",
+      "protocol": "mTLS"
+    }
+  ]
+}

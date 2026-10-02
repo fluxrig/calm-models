@@ -1,0 +1,811 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/calm.json",
+  "$id": "https://raw.githubusercontent.com/fluxrig/calm-models/main/architectures/rack-east.architecture.json",
+  "title": "rack-east: detail",
+  "description": "The rack-east Rack expanded: the gears it runs and the external endpoints they reach. Drill-down target of the overview.",
+  "nodes": [
+    {
+      "unique-id": "scheme-b-east",
+      "node-type": "system",
+      "name": "Scheme B (east)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-b.east.example:9002",
+        "icon": "credit-card"
+      }
+    },
+    {
+      "unique-id": "encode-scheme-b-east",
+      "node-type": "fluxrig:codec-iso8583",
+      "name": "encode-scheme-b-east",
+      "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583",
+        "icon": "code"
+      }
+    },
+    {
+      "unique-id": "uplink-scheme-a-east",
+      "node-type": "fluxrig:io-iso8583",
+      "name": "uplink-scheme-a-east",
+      "description": "type io_iso8583, deployed on rack-east. mode client. connect scheme-a.east.example:9001 (ascii encoding). TLS/mTLS enabled.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-a.east.example:9001",
+        "encoding": "ascii",
+        "tls": "mTLS",
+        "icon": "plug"
+      }
+    },
+    {
+      "unique-id": "uplink-scheme-b-east",
+      "node-type": "fluxrig:io-iso8583",
+      "name": "uplink-scheme-b-east",
+      "description": "type io_iso8583, deployed on rack-east. mode client. connect scheme-b.east.example:9002 (bcd encoding). TLS/mTLS enabled. TPDU framing.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-b.east.example:9002",
+        "encoding": "bcd",
+        "tls": "mTLS",
+        "icon": "plug"
+      }
+    },
+    {
+      "unique-id": "encode-scheme-a-east",
+      "node-type": "fluxrig:codec-iso8583",
+      "name": "encode-scheme-a-east",
+      "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583",
+        "icon": "code"
+      }
+    },
+    {
+      "unique-id": "terminals-east",
+      "node-type": "fluxrig:io-iso8583",
+      "name": "terminals-east",
+      "description": "type io_iso8583, deployed on rack-east. mode server. bind :8583 (ascii encoding).",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "server",
+        "socket": ":8583",
+        "encoding": "ascii",
+        "tls": "none",
+        "icon": "plug"
+      }
+    },
+    {
+      "unique-id": "encode-replies-east",
+      "node-type": "fluxrig:codec-iso8583",
+      "name": "encode-replies-east",
+      "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583",
+        "icon": "code"
+      }
+    },
+    {
+      "unique-id": "decode-scheme-a-east",
+      "node-type": "fluxrig:codec-iso8583",
+      "name": "decode-scheme-a-east",
+      "description": "type codec_iso8583, deployed on rack-east. direction decode, spec specs/switch_v87.yaml.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583",
+        "icon": "code"
+      }
+    },
+    {
+      "unique-id": "rack-east",
+      "node-type": "fluxrig:rack",
+      "name": "Rack rack-east",
+      "description": "Distributed execution node. Runs gears locally and connects outbound-only to the Mixer over the Snake (mTLS).",
+      "metadata": {
+        "labels": {
+          "region": "east"
+        },
+        "icon": "server"
+      }
+    },
+    {
+      "unique-id": "encode-scheme-a2-east",
+      "node-type": "fluxrig:codec-iso8583",
+      "name": "encode-scheme-a2-east",
+      "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583",
+        "icon": "code"
+      }
+    },
+    {
+      "unique-id": "uplink-scheme-a2-east",
+      "node-type": "fluxrig:io-iso8583",
+      "name": "uplink-scheme-a2-east",
+      "description": "type io_iso8583, deployed on rack-east. mode client. connect scheme-a-2.east.example:9001 (ascii encoding). TLS/mTLS enabled.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-a-2.east.example:9001",
+        "encoding": "ascii",
+        "tls": "mTLS",
+        "icon": "plug"
+      }
+    },
+    {
+      "unique-id": "decline-builder-east",
+      "node-type": "fluxrig:bento",
+      "name": "decline-builder-east",
+      "description": "type bento, deployed on rack-east.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "bento",
+        "icon": "gear"
+      }
+    },
+    {
+      "unique-id": "decode-east",
+      "node-type": "fluxrig:codec-iso8583",
+      "name": "decode-east",
+      "description": "type codec_iso8583, deployed on rack-east. direction decode, spec specs/switch_v87.yaml.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583",
+        "icon": "code"
+      }
+    },
+    {
+      "unique-id": "scheme-a2-east",
+      "node-type": "system",
+      "name": "Scheme A \u00b7 access point 2 (east)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-a-2.east.example:9001",
+        "icon": "credit-card"
+      }
+    },
+    {
+      "unique-id": "pos-terminals-east",
+      "node-type": "actor",
+      "name": "POS terminals (east)",
+      "description": "Point-of-sale terminals. External systems played by load simulators in test, by real terminals in production.",
+      "metadata": {
+        "socket": ":8583",
+        "icon": "terminal"
+      }
+    },
+    {
+      "unique-id": "scheme-a-east",
+      "node-type": "system",
+      "name": "Scheme A (east)",
+      "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
+      "metadata": {
+        "socket": "scheme-a.east.example:9001",
+        "icon": "credit-card"
+      }
+    },
+    {
+      "unique-id": "conductor-east",
+      "node-type": "fluxrig:conductor",
+      "name": "conductor-east",
+      "description": "type conductor, deployed on rack-east.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "conductor",
+        "correlation_key": [
+          "iso8583.field.11",
+          "iso8583.field.7",
+          "iso8583.field.32",
+          "iso8583.field.41"
+        ],
+        "valet_store": "memory",
+        "ticket_ttl": "30s",
+        "routes": [
+          {
+            "name": "scheme-a",
+            "match": {
+              "field": "iso8583.field.2",
+              "prefix": "4"
+            }
+          },
+          {
+            "name": "scheme-b",
+            "match": {
+              "field": "iso8583.field.2",
+              "prefix": "5"
+            }
+          }
+        ],
+        "icon": "conductor"
+      }
+    },
+    {
+      "unique-id": "decode-scheme-b-east",
+      "node-type": "fluxrig:codec-iso8583",
+      "name": "decode-scheme-b-east",
+      "description": "type codec_iso8583, deployed on rack-east. direction decode, spec specs/switch_v87.yaml.",
+      "metadata": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583",
+        "icon": "code"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "rack-east-contains-terminals-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "terminals-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear terminals-east."
+    },
+    {
+      "unique-id": "rack-east-contains-decode-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "decode-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear decode-east."
+    },
+    {
+      "unique-id": "rack-east-contains-conductor-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "conductor-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear conductor-east."
+    },
+    {
+      "unique-id": "rack-east-contains-encode-scheme-a-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "encode-scheme-a-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear encode-scheme-a-east."
+    },
+    {
+      "unique-id": "rack-east-contains-uplink-scheme-a-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "uplink-scheme-a-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear uplink-scheme-a-east."
+    },
+    {
+      "unique-id": "rack-east-contains-encode-scheme-a2-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "encode-scheme-a2-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear encode-scheme-a2-east."
+    },
+    {
+      "unique-id": "rack-east-contains-uplink-scheme-a2-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "uplink-scheme-a2-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear uplink-scheme-a2-east."
+    },
+    {
+      "unique-id": "rack-east-contains-encode-scheme-b-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "encode-scheme-b-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear encode-scheme-b-east."
+    },
+    {
+      "unique-id": "rack-east-contains-uplink-scheme-b-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "uplink-scheme-b-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear uplink-scheme-b-east."
+    },
+    {
+      "unique-id": "rack-east-contains-decode-scheme-a-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "decode-scheme-a-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear decode-scheme-a-east."
+    },
+    {
+      "unique-id": "rack-east-contains-decode-scheme-b-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "decode-scheme-b-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear decode-scheme-b-east."
+    },
+    {
+      "unique-id": "rack-east-contains-encode-replies-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "encode-replies-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear encode-replies-east."
+    },
+    {
+      "unique-id": "rack-east-contains-decline-builder-east",
+      "relationship-type": {
+        "composed-of": {
+          "container": "rack-east",
+          "nodes": [
+            "decline-builder-east"
+          ]
+        }
+      },
+      "description": "Rack rack-east runs gear decline-builder-east."
+    },
+    {
+      "unique-id": "terminals-east-to-decode-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "terminals-east"
+          },
+          "destination": {
+            "node": "decode-east"
+          }
+        }
+      },
+      "description": "Wire terminals-east.out -> decode-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "decode-east-to-conductor-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "decode-east"
+          },
+          "destination": {
+            "node": "conductor-east"
+          }
+        }
+      },
+      "description": "Wire decode-east.out -> conductor-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "conductor-east-to-encode-scheme-a-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "conductor-east"
+          },
+          "destination": {
+            "node": "encode-scheme-a-east"
+          }
+        }
+      },
+      "description": "Wire conductor-east.out_scheme_a -> encode-scheme-a-east.in.",
+      "metadata": {
+        "from-port": "out_scheme_a",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "encode-scheme-a-east-to-uplink-scheme-a-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "encode-scheme-a-east"
+          },
+          "destination": {
+            "node": "uplink-scheme-a-east"
+          }
+        }
+      },
+      "description": "Wire encode-scheme-a-east.out -> uplink-scheme-a-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "conductor-east-to-encode-scheme-a2-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "conductor-east"
+          },
+          "destination": {
+            "node": "encode-scheme-a2-east"
+          }
+        }
+      },
+      "description": "Wire conductor-east.out_scheme_a2 -> encode-scheme-a2-east.in.",
+      "metadata": {
+        "from-port": "out_scheme_a2",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "encode-scheme-a2-east-to-uplink-scheme-a2-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "encode-scheme-a2-east"
+          },
+          "destination": {
+            "node": "uplink-scheme-a2-east"
+          }
+        }
+      },
+      "description": "Wire encode-scheme-a2-east.out -> uplink-scheme-a2-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "conductor-east-to-encode-scheme-b-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "conductor-east"
+          },
+          "destination": {
+            "node": "encode-scheme-b-east"
+          }
+        }
+      },
+      "description": "Wire conductor-east.out_scheme_b -> encode-scheme-b-east.in.",
+      "metadata": {
+        "from-port": "out_scheme_b",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "encode-scheme-b-east-to-uplink-scheme-b-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "encode-scheme-b-east"
+          },
+          "destination": {
+            "node": "uplink-scheme-b-east"
+          }
+        }
+      },
+      "description": "Wire encode-scheme-b-east.out -> uplink-scheme-b-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "uplink-scheme-a-east-to-decode-scheme-a-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "uplink-scheme-a-east"
+          },
+          "destination": {
+            "node": "decode-scheme-a-east"
+          }
+        }
+      },
+      "description": "Wire uplink-scheme-a-east.out -> decode-scheme-a-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "uplink-scheme-a2-east-to-decode-scheme-a-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "uplink-scheme-a2-east"
+          },
+          "destination": {
+            "node": "decode-scheme-a-east"
+          }
+        }
+      },
+      "description": "Wire uplink-scheme-a2-east.out -> decode-scheme-a-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "decode-scheme-a-east-to-conductor-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "decode-scheme-a-east"
+          },
+          "destination": {
+            "node": "conductor-east"
+          }
+        }
+      },
+      "description": "Wire decode-scheme-a-east.out -> conductor-east.in_reply.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in_reply",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "uplink-scheme-b-east-to-decode-scheme-b-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "uplink-scheme-b-east"
+          },
+          "destination": {
+            "node": "decode-scheme-b-east"
+          }
+        }
+      },
+      "description": "Wire uplink-scheme-b-east.out -> decode-scheme-b-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "decode-scheme-b-east-to-conductor-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "decode-scheme-b-east"
+          },
+          "destination": {
+            "node": "conductor-east"
+          }
+        }
+      },
+      "description": "Wire decode-scheme-b-east.out -> conductor-east.in_reply.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in_reply",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "conductor-east-to-encode-replies-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "conductor-east"
+          },
+          "destination": {
+            "node": "encode-replies-east"
+          }
+        }
+      },
+      "description": "Wire conductor-east.out_response -> encode-replies-east.in.",
+      "metadata": {
+        "from-port": "out_response",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "encode-replies-east-to-terminals-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "encode-replies-east"
+          },
+          "destination": {
+            "node": "terminals-east"
+          }
+        }
+      },
+      "description": "Wire encode-replies-east.out -> terminals-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "conductor-east-to-decline-builder-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "conductor-east"
+          },
+          "destination": {
+            "node": "decline-builder-east"
+          }
+        }
+      },
+      "description": "Wire conductor-east.error -> decline-builder-east.in.",
+      "metadata": {
+        "from-port": "error",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "decline-builder-east-to-encode-replies-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "decline-builder-east"
+          },
+          "destination": {
+            "node": "encode-replies-east"
+          }
+        }
+      },
+      "description": "Wire decline-builder-east.out -> encode-replies-east.in.",
+      "metadata": {
+        "from-port": "out",
+        "to-port": "in",
+        "transport": "FluxMsg/CBOR (in-process bus)"
+      }
+    },
+    {
+      "unique-id": "pos-terminals-east-interacts-terminals-east",
+      "relationship-type": {
+        "interacts": {
+          "actor": "pos-terminals-east",
+          "nodes": [
+            "terminals-east"
+          ]
+        }
+      },
+      "description": "Terminals submit authorizations to terminals-east."
+    },
+    {
+      "unique-id": "pos-terminals-east-to-terminals-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "pos-terminals-east"
+          },
+          "destination": {
+            "node": "terminals-east"
+          }
+        }
+      },
+      "description": "ISO 8583 authorization traffic into terminals-east.",
+      "protocol": "TCP"
+    },
+    {
+      "unique-id": "terminals-east-to-pos-terminals-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "terminals-east"
+          },
+          "destination": {
+            "node": "pos-terminals-east"
+          }
+        }
+      },
+      "description": "Authorization responses back to terminals.",
+      "protocol": "TCP"
+    },
+    {
+      "unique-id": "uplink-scheme-a-east-to-scheme-a-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "uplink-scheme-a-east"
+          },
+          "destination": {
+            "node": "scheme-a-east"
+          }
+        }
+      },
+      "description": "Uplink uplink-scheme-a-east submits authorizations to the scheme.",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "uplink-scheme-a2-east-to-scheme-a2-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "uplink-scheme-a2-east"
+          },
+          "destination": {
+            "node": "scheme-a2-east"
+          }
+        }
+      },
+      "description": "Uplink uplink-scheme-a2-east submits authorizations to the scheme.",
+      "protocol": "mTLS"
+    },
+    {
+      "unique-id": "uplink-scheme-b-east-to-scheme-b-east",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "uplink-scheme-b-east"
+          },
+          "destination": {
+            "node": "scheme-b-east"
+          }
+        }
+      },
+      "description": "Uplink uplink-scheme-b-east submits authorizations to the scheme.",
+      "protocol": "mTLS"
+    }
+  ]
+}
