@@ -4,8 +4,28 @@ CALM (Common Architecture Language Model) documents for the fluxrig payment swit
 The model is a standard document, not a picture: it validates, renders, and stores
 in any CALM toolchain.
 
-FINOS hosts the [CALM specification](https://calm.finos.org/) and the
+These documents describe [fluxrig](https://github.com/jaab-tech/fluxrig) — an open-source
+ISO 8583 payment switch made of two binaries: the **Rack**, an edge node that runs
+gears and processes the traffic, and the **Mixer**, the central control plane. The
+model here covers a two-region deployment: one Rack per region, the scheme uplinks
+each Rack reaches, and the failover path between them.
+
+- Source code: [jaab-tech/fluxrig](https://github.com/jaab-tech/fluxrig)
+- Worked example: [Building the payment-switch Conductor](https://fluxrig.org/docs/tutorials/payment-switch-conductor)
+- Documentation: [fluxrig.org/docs](https://fluxrig.org/docs/)
+- Article: [Architecture as Code Needs a Standard, Not Only a Good Tool](https://antoniuk.org/posts/architecture-as-code-calm-finos/)
+
+CALM itself is hosted by FINOS: the [specification](https://calm.finos.org/), the
+[reference](https://calm.finos.org/reference/), and the
 [architecture-as-code](https://github.com/finos/architecture-as-code) repository.
+
+## Why this repository exists
+
+The write-up [Architecture as Code Needs a Standard, Not Only a Good Tool](https://antoniuk.org/posts/architecture-as-code-calm-finos/)
+explains what was done here and why: how the fluxrig payment switch was modelled in
+CALM, how the documents validate and render, how the decorators removed the node
+duplication, and what CALM still leaves to the tool. Read it first for the full
+context behind these files.
 
 ## Contents
 
@@ -25,6 +45,25 @@ flows/
 The overview drills into each Rack through `details.detailed-architecture`,
 resolved as a file path in the same `architectures/` directory.
 
+## The model in fluxrig terms
+
+| CALM element | fluxrig meaning |
+|---|---|
+| `fluxrig:region` | A deployment region. Hosts one Rack, and the Mixer in the east. |
+| `fluxrig:rack` | A Rack: the edge node that runs gears and processes traffic. |
+| `fluxrig:mixer` | The Mixer: the central control plane, hosted in region east. |
+| `fluxrig:conductor` | The gear that correlates a request with its response and routes it to a scheme. |
+| `fluxrig:codec-iso8583` | A gear that encodes and decodes ISO 8583 messages. |
+| `fluxrig:io-iso8583` | A gear that reads and writes ISO 8583 over a socket. |
+| `fluxrig:bento` | A gear that transforms messages with Bento. |
+| `actor` | POS terminals, the external systems that submit authorizations. |
+| `system` | Scheme endpoints, the external counterparties. |
+
+The `fluxrig:` node types are an extension the CALM schema permits. The Conductor,
+its correlation key, its routes, and its ticket TTL are described in the
+[payment-switch Conductor tutorial](https://fluxrig.org/docs/tutorials/payment-switch-conductor),
+and the gear reference is at [fluxrig.org/docs/reference/gears](https://fluxrig.org/docs/reference/gears/overview).
+
 ## Decorators
 
 A node that appears in more than one document used to carry its deployment facts
@@ -37,13 +76,13 @@ in every copy. The decorators hold those facts once and apply them by `unique-id
   gear: the Rack that hosts it, its gear type, socket, mode, encoding, TLS mode, and
   the Conductor timers.
 
-The node keeps its identity, name, description, type, and presentation hint. The
-decorator is the single source for the facts shared across documents. A change to a
-socket or a gear placement is one edit in one file, and every architecture document
-that names the node sees it.
+Nine nodes had their facts copied across documents. The decorators removed that
+duplication: 94 metadata keys now live once. A socket or gear change is one edit in
+one file, and every architecture document that names the node sees it.
 
-Metadata that remains in a node is a presentation hint (`icon`, `labels`), not a
-deployment fact. The renderer reads it; the decorator does not own it.
+The node keeps its identity, name, description, type, and presentation hint. The
+decorator is the single source for the facts shared across documents. Metadata that
+remains in a node is a presentation hint (`icon`, `labels`), not a deployment fact.
 
 Validate a decorator against its schema with a JSON Schema validator, since the
 `calm` CLI does not have a decorator check:
@@ -110,16 +149,18 @@ calm.database.mode=github
 calm.github.namespaces=fluxrig|fluxrig/calm-models|main
 ```
 
-The Hub clones the repository and serves every `architectures/` and `flows/` file as
-a versioned resource. A version is the commit SHA that last changed the file.
+The Hub clones the repository and serves every `architectures/`, `decorators/`, and
+`flows/` file as a versioned resource. A version is the commit SHA that last changed
+the file.
 
 The public Hub at [hub.calm.finos.org](https://hub.calm.finos.org/) is read-only and
 accepts no external namespaces.
 
 ## Source
 
-Generated from the fluxrig scenario file `payment_switch_two_regions.yaml`. Wiring
-the generator into the `fluxrig` build is planned.
+Generated from the fluxrig scenario file `payment_switch_two_regions.yaml`. The
+scenario file is the same input the Rack runs. Wiring the generator into the
+`fluxrig` build is planned.
 
 ## License
 
