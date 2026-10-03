@@ -10,7 +10,6 @@
       "name": "Scheme B (east)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-b.east.example:9002",
         "icon": "credit-card"
       }
     },
@@ -20,8 +19,6 @@
       "name": "encode-scheme-b-east",
       "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "codec_iso8583",
         "icon": "code"
       }
     },
@@ -31,12 +28,6 @@
       "name": "uplink-scheme-a-east",
       "description": "type io_iso8583, deployed on rack-east. mode client. connect scheme-a.east.example:9001 (ascii encoding). TLS/mTLS enabled.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "io_iso8583",
-        "mode": "client",
-        "socket": "scheme-a.east.example:9001",
-        "encoding": "ascii",
-        "tls": "mTLS",
         "icon": "plug"
       }
     },
@@ -46,12 +37,6 @@
       "name": "uplink-scheme-b-east",
       "description": "type io_iso8583, deployed on rack-east. mode client. connect scheme-b.east.example:9002 (bcd encoding). TLS/mTLS enabled. TPDU framing.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "io_iso8583",
-        "mode": "client",
-        "socket": "scheme-b.east.example:9002",
-        "encoding": "bcd",
-        "tls": "mTLS",
         "icon": "plug"
       }
     },
@@ -61,8 +46,6 @@
       "name": "encode-scheme-a-east",
       "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "codec_iso8583",
         "icon": "code"
       }
     },
@@ -72,12 +55,6 @@
       "name": "terminals-east",
       "description": "type io_iso8583, deployed on rack-east. mode server. bind :8583 (ascii encoding).",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "io_iso8583",
-        "mode": "server",
-        "socket": ":8583",
-        "encoding": "ascii",
-        "tls": "none",
         "icon": "plug"
       }
     },
@@ -87,8 +64,6 @@
       "name": "encode-replies-east",
       "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "codec_iso8583",
         "icon": "code"
       }
     },
@@ -98,8 +73,6 @@
       "name": "decode-scheme-a-east",
       "description": "type codec_iso8583, deployed on rack-east. direction decode, spec specs/switch_v87.yaml.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "codec_iso8583",
         "icon": "code"
       }
     },
@@ -121,8 +94,6 @@
       "name": "encode-scheme-a2-east",
       "description": "type codec_iso8583, deployed on rack-east. direction encode, spec specs/switch_v87.yaml.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "codec_iso8583",
         "icon": "code"
       }
     },
@@ -132,12 +103,6 @@
       "name": "uplink-scheme-a2-east",
       "description": "type io_iso8583, deployed on rack-east. mode client. connect scheme-a-2.east.example:9001 (ascii encoding). TLS/mTLS enabled.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "io_iso8583",
-        "mode": "client",
-        "socket": "scheme-a-2.east.example:9001",
-        "encoding": "ascii",
-        "tls": "mTLS",
         "icon": "plug"
       }
     },
@@ -147,8 +112,6 @@
       "name": "decline-builder-east",
       "description": "type bento, deployed on rack-east.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "bento",
         "icon": "gear"
       }
     },
@@ -158,8 +121,6 @@
       "name": "decode-east",
       "description": "type codec_iso8583, deployed on rack-east. direction decode, spec specs/switch_v87.yaml.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "codec_iso8583",
         "icon": "code"
       }
     },
@@ -169,7 +130,6 @@
       "name": "Scheme A \u00b7 access point 2 (east)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-a-2.east.example:9001",
         "icon": "credit-card"
       }
     },
@@ -179,7 +139,6 @@
       "name": "POS terminals (east)",
       "description": "Point-of-sale terminals. External systems played by load simulators in test, by real terminals in production.",
       "metadata": {
-        "socket": ":8583",
         "icon": "terminal"
       }
     },
@@ -189,7 +148,6 @@
       "name": "Scheme A (east)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-a.east.example:9001",
         "icon": "credit-card"
       }
     },
@@ -199,16 +157,12 @@
       "name": "conductor-east",
       "description": "type conductor, deployed on rack-east.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "conductor",
         "correlation_key": [
           "iso8583.field.11",
           "iso8583.field.7",
           "iso8583.field.32",
           "iso8583.field.41"
         ],
-        "valet_store": "memory",
-        "ticket_ttl": "30s",
         "routes": [
           {
             "name": "scheme-a",
@@ -234,8 +188,6 @@
       "name": "decode-scheme-b-east",
       "description": "type codec_iso8583, deployed on rack-east. direction decode, spec specs/switch_v87.yaml.",
       "metadata": {
-        "deploy": "rack-east",
-        "gear-type": "codec_iso8583",
         "icon": "code"
       }
     }

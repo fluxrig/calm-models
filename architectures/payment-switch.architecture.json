@@ -68,7 +68,6 @@
       "name": "POS terminals (east)",
       "description": "Point-of-sale terminals. External systems played by load simulators in test, by real terminals in production.",
       "metadata": {
-        "socket": ":8583",
         "icon": "terminal"
       }
     },
@@ -78,7 +77,6 @@
       "name": "Scheme A (east)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-a.east.example:9001",
         "icon": "credit-card"
       }
     },
@@ -88,7 +86,6 @@
       "name": "Scheme A \u00b7 access point 2 (east)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-a-2.east.example:9001",
         "icon": "credit-card"
       }
     },
@@ -98,7 +95,6 @@
       "name": "Scheme B (east)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-b.east.example:9002",
         "icon": "credit-card"
       }
     },
@@ -108,7 +104,6 @@
       "name": "POS terminals (west)",
       "description": "Point-of-sale terminals. External systems played by load simulators in test, by real terminals in production.",
       "metadata": {
-        "socket": ":8583",
         "icon": "terminal"
       }
     },
@@ -118,7 +113,6 @@
       "name": "Scheme A (west)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-a.west.example:9001",
         "icon": "credit-card"
       }
     },
@@ -128,7 +122,6 @@
       "name": "Scheme B (west)",
       "description": "Acquirer-facing card scheme endpoint. Independent counterparty: never played by fluxrig itself in conformance suites.",
       "metadata": {
-        "socket": "scheme-b.west.example:9002",
         "icon": "credit-card"
       }
     }

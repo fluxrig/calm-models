@@ -1,0 +1,71 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/decorators.json#/defs/decorator",
+  "unique-id": "fluxrig-deployment-facts",
+  "type": "fluxrig-deployment",
+  "target": [
+    "https://raw.githubusercontent.com/fluxrig/calm-models/main/architectures/payment-switch.architecture.json",
+    "https://raw.githubusercontent.com/fluxrig/calm-models/main/architectures/rack-east.architecture.json",
+    "https://raw.githubusercontent.com/fluxrig/calm-models/main/architectures/rack-west.architecture.json"
+  ],
+  "applies-to": [
+    "region-east",
+    "region-west",
+    "rack-east",
+    "rack-west",
+    "mixer",
+    "pos-terminals-east",
+    "pos-terminals-west",
+    "scheme-a-east",
+    "scheme-a2-east",
+    "scheme-a-west",
+    "scheme-b-east",
+    "scheme-b-west"
+  ],
+  "data": {
+    "regions": {
+      "east": {
+        "hosts-mixer": true,
+        "rack": "rack-east"
+      },
+      "west": {
+        "hosts-mixer": false,
+        "rack": "rack-west"
+      }
+    },
+    "racks": {
+      "rack-east": {
+        "region": "east",
+        "transport": "FluxMsg/CBOR over Snake (NATS JetStream, mTLS)",
+        "connects-outbound-only": true
+      },
+      "rack-west": {
+        "region": "west",
+        "transport": "FluxMsg/CBOR over Snake (NATS JetStream, mTLS)",
+        "connects-outbound-only": true
+      }
+    },
+    "endpoints": {
+      "pos-terminals-east": {
+        "socket": ":8583"
+      },
+      "pos-terminals-west": {
+        "socket": ":8583"
+      },
+      "scheme-a-east": {
+        "socket": "scheme-a.east.example:9001"
+      },
+      "scheme-a2-east": {
+        "socket": "scheme-a-2.east.example:9001"
+      },
+      "scheme-b-east": {
+        "socket": "scheme-b.east.example:9002"
+      },
+      "scheme-a-west": {
+        "socket": "scheme-a.west.example:9001"
+      },
+      "scheme-b-west": {
+        "socket": "scheme-b.west.example:9002"
+      }
+    }
+  }
+}

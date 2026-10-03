@@ -14,6 +14,9 @@ architectures/
   payment-switch.architecture.json   high-level view: two regions, Racks, scheme uplinks
   rack-east.architecture.json        rack east detail: gears, wires, endpoints
   rack-west.architecture.json        rack west detail: gears, wires, endpoints
+decorators/
+  fluxrig-deployment.decorator.json  region, Rack, and endpoint facts
+  fluxrig-gear-placement.decorator.json   gear host, type, and wire facts
 flows/
   authorization.flow.json            end-to-end authorization path
   failover.flow.json                 cross-region failover path
@@ -21,6 +24,33 @@ flows/
 
 The overview drills into each Rack through `details.detailed-architecture`,
 resolved as a file path in the same `architectures/` directory.
+
+## Decorators
+
+A node that appears in more than one document used to carry its deployment facts
+in every copy. The decorators hold those facts once and apply them by `unique-id`.
+
+- `fluxrig-deployment.decorator.json` owns the region, Rack, Mixer, and external
+  endpoint facts: the socket of each scheme and terminal, the Rack region, and the
+  transport between Racks.
+- `fluxrig-gear-placement.decorator.json` owns the placement and wire facts of every
+  gear: the Rack that hosts it, its gear type, socket, mode, encoding, TLS mode, and
+  the Conductor timers.
+
+The node keeps its identity, name, description, type, and presentation hint. The
+decorator is the single source for the facts shared across documents. A change to a
+socket or a gear placement is one edit in one file, and every architecture document
+that names the node sees it.
+
+Metadata that remains in a node is a presentation hint (`icon`, `labels`), not a
+deployment fact. The renderer reads it; the decorator does not own it.
+
+Validate a decorator against its schema with a JSON Schema validator, since the
+`calm` CLI does not have a decorator check:
+
+```shell
+# schema: https://calm.finos.org/release/1.2/meta/decorators.json#/defs/decorator
+```
 
 ## Validate
 

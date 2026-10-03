@@ -1,0 +1,167 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/decorators.json#/defs/decorator",
+  "unique-id": "fluxrig-gear-placement",
+  "type": "fluxrig-gear-placement",
+  "target": [
+    "https://raw.githubusercontent.com/fluxrig/calm-models/main/architectures/rack-east.architecture.json",
+    "https://raw.githubusercontent.com/fluxrig/calm-models/main/architectures/rack-west.architecture.json"
+  ],
+  "applies-to": [
+    "terminals-east",
+    "terminals-west",
+    "decode-east",
+    "decode-west",
+    "encode-scheme-a-east",
+    "encode-scheme-a2-east",
+    "encode-scheme-b-east",
+    "encode-replies-east",
+    "decode-scheme-a-east",
+    "decode-scheme-b-east",
+    "encode-scheme-a-west",
+    "encode-scheme-b-west",
+    "encode-replies-west",
+    "decode-scheme-a-west",
+    "decode-scheme-b-west",
+    "uplink-scheme-a-east",
+    "uplink-scheme-a2-east",
+    "uplink-scheme-b-east",
+    "uplink-scheme-a-west",
+    "uplink-scheme-b-west",
+    "conductor-east",
+    "conductor-west",
+    "decline-builder-east",
+    "decline-builder-west"
+  ],
+  "data": {
+    "by-node": {
+      "terminals-east": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "server",
+        "socket": ":8583",
+        "encoding": "ascii",
+        "tls": "none"
+      },
+      "terminals-west": {
+        "deploy": "rack-west",
+        "gear-type": "io_iso8583",
+        "mode": "server",
+        "socket": ":8583",
+        "encoding": "ascii",
+        "tls": "none"
+      },
+      "decode-east": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583"
+      },
+      "decode-west": {
+        "deploy": "rack-west",
+        "gear-type": "codec_iso8583"
+      },
+      "encode-scheme-a-east": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583"
+      },
+      "encode-scheme-a2-east": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583"
+      },
+      "encode-scheme-b-east": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583"
+      },
+      "encode-replies-east": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583"
+      },
+      "decode-scheme-a-east": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583"
+      },
+      "decode-scheme-b-east": {
+        "deploy": "rack-east",
+        "gear-type": "codec_iso8583"
+      },
+      "encode-scheme-a-west": {
+        "deploy": "rack-west",
+        "gear-type": "codec_iso8583"
+      },
+      "encode-scheme-b-west": {
+        "deploy": "rack-west",
+        "gear-type": "codec_iso8583"
+      },
+      "encode-replies-west": {
+        "deploy": "rack-west",
+        "gear-type": "codec_iso8583"
+      },
+      "decode-scheme-a-west": {
+        "deploy": "rack-west",
+        "gear-type": "codec_iso8583"
+      },
+      "decode-scheme-b-west": {
+        "deploy": "rack-west",
+        "gear-type": "codec_iso8583"
+      },
+      "uplink-scheme-a-east": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-a.east.example:9001",
+        "encoding": "ascii",
+        "tls": "mTLS"
+      },
+      "uplink-scheme-a2-east": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-a-2.east.example:9001",
+        "encoding": "ascii",
+        "tls": "mTLS"
+      },
+      "uplink-scheme-b-east": {
+        "deploy": "rack-east",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-b.east.example:9002",
+        "encoding": "bcd",
+        "tls": "mTLS"
+      },
+      "uplink-scheme-a-west": {
+        "deploy": "rack-west",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-a.west.example:9001",
+        "encoding": "ascii",
+        "tls": "mTLS"
+      },
+      "uplink-scheme-b-west": {
+        "deploy": "rack-west",
+        "gear-type": "io_iso8583",
+        "mode": "client",
+        "socket": "scheme-b.west.example:9002",
+        "encoding": "bcd",
+        "tls": "mTLS"
+      },
+      "conductor-east": {
+        "deploy": "rack-east",
+        "gear-type": "conductor",
+        "valet_store": "memory",
+        "ticket_ttl": "30s"
+      },
+      "conductor-west": {
+        "deploy": "rack-west",
+        "gear-type": "conductor",
+        "valet_store": "memory",
+        "ticket_ttl": "30s"
+      },
+      "decline-builder-east": {
+        "deploy": "rack-east",
+        "gear-type": "bento"
+      },
+      "decline-builder-west": {
+        "deploy": "rack-west",
+        "gear-type": "bento"
+      }
+    }
+  }
+}
